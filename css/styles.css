@@ -1,0 +1,135 @@
+body{
+  background-color: #1c3021;
+}
+.card {
+  width: 92px;
+  height: 128px;
+  background-image: url(../images/cards.png);
+  background-repeat: no-repeat;
+  background-position: -10px -312px;
+  border: 1px solid #fff;
+  box-sizing: border-box;
+  border-radius: 6px;
+}
+
+.t1{
+  background-position-y: -16px;
+}
+
+.t2{
+  background-position-y: -312px;
+}
+
+.t3{
+  background-position-y: -461px;
+}
+
+.t4{
+  background-position-y: -164px;
+}
+
+.kT{
+  background-position-x: -117px
+}
+
+.kK{
+  background-position-x:  calc(-117px - 107px);
+}
+.kQ{
+  background-position-x: calc(-117px - 107px * 2);
+}
+.kJ{
+  background-position-x: calc(-117px - 107px * 3);
+}
+.k10{
+  background-position-x: calc(-117px - 107px * 4);
+}
+.k9{
+  background-position-x: calc(-117px - 107px * 5);
+}
+.k8{
+  background-position-x: calc(-117px - 107px * 6);
+}
+.k7{
+  background-position-x: calc(-117px - 107px * 7);
+}
+.k6{
+  background-position-x: calc(-117px - 107px * 8);
+}
+.k5{
+  background-position-x: calc(-117px - 107px * 9);
+}
+.k4{
+  background-position-x: calc(-117px - 107px * 10);
+}
+.k3{
+  background-position-x: calc(-117px - 107px * 11);
+}
+.k2{
+  background-position-x: calc(-117px - 107px * 12);
+}
+
+
+#table{
+  width: 960px;
+  height: 400px;
+  margin: 50px auto;
+  background: #177a32;
+  border-radius: 5px;
+  border: 1px dashed #21c44e;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+#dealer, #player{
+  height: 128px;
+  width: 100%;
+
+
+}
+.card-wrapper {
+  display: flex;
+  justify-content: center;
+  flex-wrap: nowrap;
+}
+
+.card-wrapper .card{
+  margin: 0 5px;
+}
+
+#actions {
+  background: #e6d38a;
+  width: 960px;
+  height: 100px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.btn {
+  display: inline-block;
+  text-decoration: none;
+  background: #42b04e;
+  box-sizing: border-box;
+  padding: 10px 30px;
+  color: #fff;
+  text-transform: uppercase;
+  font-weight: bold;
+  border-radius: 10px;
+  margin: 30px 10px 0;
+  box-shadow: 0 3px 3px rgba(0,0,0,0.5);
+
+}
+
+.btn.disabled {
+  background: #757575;
+  box-shadow: none;
+  cursor: default;
+}
+.btn.disabled:active{
+  box-shadow: none;
+}
+
+.btn:active{
+  box-shadow: 0 0 3px rgba(0,0,0,0.5);
+}
