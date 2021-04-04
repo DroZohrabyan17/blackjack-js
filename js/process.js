@@ -4,7 +4,7 @@ document.addEventListener('DOMContentLoaded', () => {
     event.preventDefault();
     let btn = event.target;
     let classes = btn.className;
-    if(classes.indexOf('disabled') !== -1){
+    if(classes.indexOf('disabled') !== -1){  // chem haskacel??
       return;
     }
     let id = btn.dataset.id;

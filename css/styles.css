@@ -85,8 +85,6 @@ body{
 #dealer, #player{
   height: 128px;
   width: 100%;
-
-
 }
 .card-wrapper {
   display: flex;
@@ -132,4 +130,27 @@ body{
 
 .btn:active{
   box-shadow: 0 0 3px rgba(0,0,0,0.5);
+}
+
+.dealerpoints-wrapper{
+  width: 100px;
+  height: 30px;
+  float: right;
+  margin-right: 30px;
+  margin-top: 20px;
+  border: 1px solid black;
+  border-radius: 10px;
+  background: #0da326;
+}
+
+.playerpoints-wrapper{
+  position: relative;
+  width: 100px;
+  height: 30px;
+  float: right;
+  margin-right: 30px;
+  margin-top: 78px;
+  border: 1px solid black;
+  border-radius: 10px;
+  background: #0da326;
 }
