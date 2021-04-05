@@ -102,10 +102,18 @@ let Game =  {
   dealBtnClick: function(){
     this.playerCards.push(this.getCard());
     this.calculate();
+    // this.calculatePoints();  XI CHI ASHXATUM??
     this.checkWinner();
     this.next();
   },
-  stopBtnClick: function(){},
+  stopBtnClick: function(){
+    // this.dealerCards.delete(this.getCard());     //2 qaric avel chi tali...
+    this.removeEmptyCard();
+    this.dealerCards.push(this.getCard());
+    this.calculate();
+    this.checkWinner();
+    this.next();
+  },
   resetBtnClick: function(){
     this.playerCards = [];
     this.dealerCards = [];
