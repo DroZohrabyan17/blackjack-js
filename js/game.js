@@ -176,16 +176,16 @@ let Game =  {
   startGame: function(){
     let that = this;
     that.generate();
+    that.setBtnDisabled('start');
+    that.removeBtnDisabled('deal');
+    that.removeBtnDisabled('stop');
+    that.removeBtnDisabled('reset');
     that.drawCard(false);
     that.playerCards.push(that.getCard());
     that.playerCards.push(that.getCard());
     that.dealerCards.push(that.getCard());
     that.checkWinner();
     that.next();
-    that.setBtnDisabled('start');
-    that.removeBtnDisabled('deal');
-    that.removeBtnDisabled('stop');
-    that.removeBtnDisabled('reset');
   },
 
   finish: function(){
