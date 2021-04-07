@@ -71,6 +71,7 @@ body{
 
 
 #table{
+  position: relative;
   width: 960px;
   height: 400px;
   margin: 50px auto;
@@ -85,6 +86,7 @@ body{
 #dealer, #player{
   height: 128px;
   width: 100%;
+  position: relative;
 }
 .card-wrapper {
   display: flex;
@@ -132,25 +134,39 @@ body{
   box-shadow: 0 0 3px rgba(0,0,0,0.5);
 }
 
-.dealerpoints-wrapper{
-  width: 100px;
+.points-wrapper {
+  width: 60px;
   height: 30px;
-  float: right;
-  margin-right: 30px;
-  margin-top: 20px;
   border: 1px solid black;
   border-radius: 10px;
   background: #0da326;
+  position: absolute;
+  right: 30px;
+  top: 60px;
+  box-sizing: border-box;
+  text-align: center;
+  padding: 5px 0;
+  color: #fff;
+  font-weight: bold;
 }
 
-.playerpoints-wrapper{
-  position: relative;
-  width: 100px;
-  height: 30px;
-  float: right;
-  margin-right: 30px;
-  margin-top: 78px;
-  border: 1px solid black;
-  border-radius: 10px;
-  background: #0da326;
+#table.draw::after {
+  content: 'Draw';
+  position: absolute;
+  display: block;
+  z-index: 100;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.4);
+  left: 0;
+  top: 0;
+  color: #fff;
+  text-align: center;
+  box-sizing: border-box;
+  padding: 170px 0;
+  font-size: 40px;
+}
+
+.winner {
+  background: #ce5252;
 }

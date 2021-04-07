@@ -54,7 +54,6 @@ let Game =  {
   // Next step.
   next: function(){
     let that = this;
-    that.showAll();
     if(!that.playerMove){
       while(that.ingame){
         that.dealerCards.push(that.getCard());
@@ -63,17 +62,19 @@ let Game =  {
         if(that.dealerPoints > 17){
           that.ingame = false;
         }
+        that.showAll();
       }
     }
     if(!that.ingame){
       that.finish();
     }
+    that.showAll();
   },
-  // Dealer need move or note?
-  needMove: function(){},
+
   // Check WIN or not.
   checkWinner: function(){
     let that = this;
+    that.draw = false;
     that.calculate();
     if(that.playerCards.length == 2 && that.playerPoints == 21){
       that.win = true;
@@ -98,6 +99,7 @@ let Game =  {
     }else {
       that.win = false;
     }
+
   },
   dealBtnClick: function(){
     this.playerCards.push(this.getCard());
@@ -109,9 +111,10 @@ let Game =  {
   stopBtnClick: function(){
     // this.dealerCards.delete(this.getCard());     //2 qaric avel chi tali...
     this.removeEmptyCard();
-    this.dealerCards.push(this.getCard());
-    this.calculate();
-    this.checkWinner();
+
+    this.playerMove = false;
+    this.setBtnDisabled('deal');
+    this.setBtnDisabled('stop');
     this.next();
   },
   resetBtnClick: function(){
@@ -120,11 +123,20 @@ let Game =  {
     this.playerPoints = 0;
     this.dealerPoints = 0;
     this.deck = [];
+    this.ingame = true;
+    this.playerMove = true;
     document.querySelector('#player .card-wrapper').innerHTML = '';
     document.querySelector('#dealer .card-wrapper').innerHTML = '';
     document.querySelector('#actions').innerHTML = '';
+    let winner = document.querySelector('.winner');
+    let draw = document.querySelector('.draw');
+    if(winner){
+      winner.classList.remove('winner');
+    }
+    if(draw){
+      draw.classList.remove('draw');
+    }
     this.init();
-
   },
 
   // Calculate
@@ -173,38 +185,35 @@ let Game =  {
   },
 
   finish: function(){
-
+    let that = this;
+    that.showAll();
+    that.drawWinner(that.win, that.draw);
+    this.setBtnDisabled('deal');
+    this.setBtnDisabled('stop');
   },
 
-  /**
-   * @param bool forPlayer
-   *   flag for draing position.
-   * @param object card
-   *   contain card information.
-   */
-  drawCard: function(forPlayer, card){
-    let cardHtml = '<div class="card ';
-    if(card !== undefined){
-      cardHtml +=  't' + card.type;
-      cardHtml += ' k' + card.key;
-    } else{
-      cardHtml += 'empty';
+  drawWinner: function(isPlayer, draw){
+    let id;
+    if(draw){
+      document.getElementById('table').classList.add('draw');
+      return;
     }
-    cardHtml += '"></div>';
-
-    let  id;
-    if(forPlayer){
-      id = '#player';
-    } else{
-      id = '#dealer';
+    if(isPlayer){
+      id = 'player';
+    }else{
+      id = 'dealer';
     }
-    document.querySelector(id + ' .card-wrapper').innerHTML += cardHtml;
+    document.getElementById(id).classList.add('winner');
   },
 
   removeEmptyCard: function(){
-    document.querySelector('.empty').remove();
+    let emptyCard = document.querySelector('.empty');
+    if(emptyCard){
+      emptyCard.remove();
+    }
 
   },
+
   drawBtn: function(id, text){
     text = text || id;
     let aHtml  = `<a class="btn" data-id="${id}" href="#">${text}</a>`;
@@ -247,17 +256,52 @@ let Game =  {
         that.drawCard(false, card);
       }
     });
+    that.drawPoint(true);
+    that.drawPoint(false);
+
 
   },
-  showCards: function(cards, forPlayer){
-    let that = this;
-    let selector;
-    if(forPlayer){
-      selector = '#player .card-wrapper';
-    } else{
-      selector = '#dealer .card-wrapper';
-    }
 
+  /**
+   * @param bool forPlayer
+   *   flag for draing position.
+   * @param object card
+   *   contain card information.
+   */
+  drawPoint: function(forPlayer){
+    let  id, point;
+    if(forPlayer){
+      point = this.playerPoints;
+      id = '#player';
+    } else{
+      point = this.dealerPoints;
+      id = '#dealer';
+    }
+    document.querySelector(id + ' .points-wrapper').innerHTML = point;
+  },
+  /**
+   * @param bool forPlayer
+   *   flag for draing position.
+   * @param object card
+   *   contain card information.
+   */
+  drawCard: function(forPlayer, card){
+    let cardHtml = '<div class="card ';
+    if(card !== undefined){
+      cardHtml +=  't' + card.type;
+      cardHtml += ' k' + card.key;
+    } else{
+      cardHtml += 'empty';
+    }
+    cardHtml += '"></div>';
+
+    let  id;
+    if(forPlayer){
+      id = '#player';
+    } else{
+      id = '#dealer';
+    }
+    document.querySelector(id + ' .card-wrapper').innerHTML += cardHtml;
   }
 
 }
