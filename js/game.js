@@ -128,6 +128,10 @@ let Game =  {
     document.querySelector('#player .card-wrapper').innerHTML = '';
     document.querySelector('#dealer .card-wrapper').innerHTML = '';
     document.querySelector('#actions').innerHTML = '';
+    let pointWrapper = document.querySelectorAll('.points-wrapper');
+    for(let point of pointWrapper){
+      point.innerHTML = '0';
+    }
     let winner = document.querySelector('.winner');
     let draw = document.querySelector('.draw');
     if(winner){
@@ -137,9 +141,6 @@ let Game =  {
       draw.classList.remove('draw');
     }
     this.init();
-
-    this.drawPoint(true);
-    this.drawPoint(false);
   },
 
   // Calculate
