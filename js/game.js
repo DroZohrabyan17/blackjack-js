@@ -180,6 +180,7 @@ let Game =  {
     that.removeBtnDisabled('deal');
     that.removeBtnDisabled('stop');
     that.removeBtnDisabled('reset');
+
     that.drawCard(false);
     that.playerCards.push(that.getCard());
     that.playerCards.push(that.getCard());
