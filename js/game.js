@@ -137,6 +137,9 @@ let Game =  {
       draw.classList.remove('draw');
     }
     this.init();
+
+    this.drawPoint(true);
+    this.drawPoint(false);
   },
 
   // Calculate
