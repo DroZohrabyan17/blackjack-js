@@ -167,6 +167,20 @@ body{
   font-size: 40px;
 }
 
-.winner {
-  background: #ce5252;
+.winner::after {
+  content: 'WIN';
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  display: block;
+  z-index: 100;
+  background: rgba(0, 0, 0, 0.4);
+  left: 0;
+  top: 0;
+  color: #fcf800;
+  text-align: center;
+  box-sizing: border-box;
+  font-size: 55px;
+  font-weight: bold;
+  padding: 30px;
 }
