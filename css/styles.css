@@ -88,8 +88,11 @@ body{
   width: 960px;
   height: 400px;
   margin: 50px auto;
-  background: #177a32;
-  border-radius: 5px;
+  background-image: url(../images/table.jpg);
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  border-radius: 25px;
   border: 1px dashed #21c44e;
   display: flex;
   flex-direction: column;
@@ -112,7 +115,10 @@ body{
 }
 
 #actions {
-  background: #e6d38a;
+  background-image: url(../images/actions-table.jpg);
+  background-size: cover;
+  background-repeat: no-repeat;
+  border-radius: 20px;
   width: 960px;
   height: 100px;
   margin: 0 auto;
@@ -188,6 +194,7 @@ body{
   display: block;
   z-index: 100;
   background: rgba(0, 0, 0, 0.4);
+  border-radius: 25px;
   left: 0;
   top: 0;
   color: #fcf800;
