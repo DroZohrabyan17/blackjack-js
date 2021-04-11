@@ -1,9 +1,23 @@
+/*
+  @constructor
+    Весь процесс игры
+*/
+
 let Game =  {
-  // Cards group. foramt: type:value
+  /*
+    @param array
+      Сохраняется калода карт (52 карт)
+  */
   deck: [],
-  // 1=> Sirt, 2 => Qyap, 3=> Khach, 4 => Ghar.
+  /*
+    @param array
+      Сохраняется масты карт от 1 до 4
+  */
   cardsType: ['1', '2', '3', '4'],
-  // Card balues.
+  /*
+    @param array
+      Значение карт от 2 до туза
+  */.
   values: {
     '2': 2,
     '3': 3,
@@ -19,28 +33,64 @@ let Game =  {
     'K': 10,
     'T': 11
   },
+  /*
+    @param bool
+      Выграл игрок или нет?
+  */
   win: false,
+  /*
+    @param bool
+      Ничья или нет?
+  */
   draw: false,
+  /*
+    @param bool
+      Игра в поцесе или нет?
+  */
   ingame: true,
+  /*
+    @param bool
+      ход игрока или нет?
+  */
   playerMove: true,
-
+  /*
+    @param let
+      содержит очки игрока
+  */
   playerPoints: 0,
+  /*
+    @param array
+      содержит карты игрока
+  */
   playerCards: [],
-
+  /*
+    @param let
+      содержит очки дилера
+  */
   dealerPoints: 0,
+  /*
+    @param array
+      содержит карты дилера
+  */
   dealerCards: [],
 
-  //Generate initial state.
+  /*
+    @constructor
+      генерирует калода карт
+  */
   generate: function(){
     let that = this;
-    // create deck.
     for(let key in that.values){
       that.cardsType.forEach((mast) => {
         that.deck.push( mast + ':' + key);
       });
     }
   },
-  // Parse cart nominal value.
+  /*
+    @constructor
+    @param array card
+      разбирает карты
+  */
   parseCard: function(card){
     let cardParts = card.split(':');
     let cardDetails = {
@@ -51,7 +101,9 @@ let Game =  {
     }
     return cardDetails;
   },
-  // Next step.
+
+   // раздаёт карты дилеру до тех пор, пока очки дилера не удут больше 17
+
   next: function(){
     let that = this;
     if(!that.playerMove){
@@ -71,7 +123,8 @@ let Game =  {
     that.showAll();
   },
 
-  // Check WIN or not.
+
+    //Вычесляет кто выграл
   checkWinner: function(){
     let that = this;
     that.draw = false;
@@ -100,6 +153,8 @@ let Game =  {
       that.win = false;
     }
 
+  //Нажатье на кнопку "deal"
+
   },
   dealBtnClick: function(){
     this.playerCards.push(this.getCard());
@@ -108,8 +163,8 @@ let Game =  {
     this.checkWinner();
     this.next();
   },
+  //Нажатье на кнопку "stop"
   stopBtnClick: function(){
-    // this.dealerCards.delete(this.getCard());     //2 qaric avel chi tali...
     this.removeEmptyCard();
 
     this.playerMove = false;
@@ -117,6 +172,9 @@ let Game =  {
     this.setBtnDisabled('stop');
     this.next();
   },
+
+
+  //Нажатье на кнопку "reset"
   resetBtnClick: function(){
     this.playerCards = [];
     this.dealerCards = [];
@@ -143,12 +201,13 @@ let Game =  {
     this.init();
   },
 
-  // Calculate
+  // Считает очки игрока и дилера
   calculate: function(){
     this.playerPoints = this.calculatePoints(this.playerCards);
     this.dealerPoints = this.calculatePoints(this.dealerCards);
   },
-  // Calculate helper.
+
+   // Считает очки игрока и дилера с тузом (значения Туза может быть 11 или 1)
   calculatePoints: function(cards){
     let tCount = 0;
     let points = 0;
@@ -158,21 +217,21 @@ let Game =  {
         tCount++;
       }
     });
-    // remove T values when points greate than 21.
+    // Вычесляет 10 очков если очки больше 21 и есть туз
     while(points > 21 && tCount > 0){
       points -= 10;
       tCount--;
     }
     return points;
   },
-  //Gett random card from deck.
+  //Раздаёт рандомные карты
   getCard: function(){
     let that = this;
     let itemKey = Math.floor(Math.random() * that.deck.length);
     let cards = that.deck.splice(itemKey, 1);
     return that.parseCard(cards.pop());
   },
-
+  // Начало игры
   startGame: function(){
     let that = this;
     that.generate();
@@ -188,7 +247,7 @@ let Game =  {
     that.checkWinner();
     that.next();
   },
-
+  // Завершение игры
   finish: function(){
     let that = this;
     that.showAll();
@@ -196,7 +255,12 @@ let Game =  {
     this.setBtnDisabled('deal');
     this.setBtnDisabled('stop');
   },
-
+  /*
+  @param bool is Player
+    Возврашает кто выграл
+  @param bool draw
+    Ничья или нет
+  */
   drawWinner: function(isPlayer, draw){
     let id;
     if(draw){
@@ -211,6 +275,7 @@ let Game =  {
     document.getElementById(id).classList.add('winner');
   },
 
+  //Удаляет закрытую карту дилера
   removeEmptyCard: function(){
     let emptyCard = document.querySelector('.empty');
     if(emptyCard){
@@ -219,24 +284,47 @@ let Game =  {
 
   },
 
+  /*
+  Рисует кнопки
+
+  @param object id
+    id кнопки
+  @param text text
+    название кнопки
+  */
   drawBtn: function(id, text){
     text = text || id;
     let aHtml  = `<a class="btn" data-id="${id}" href="#">${text}</a>`;
     document.querySelector('#actions').innerHTML += aHtml;
   },
+
+   /*
+    отключает кнопки
+
+  @param object id
+    id кнопки
+  */
   setBtnDisabled: function(id){
     let a = document.querySelector('a[data-id="' + id + '"]');
     if(a.classList !== undefined){
       a.classList.add('disabled');
     }
-  }
-  ,
+  },
+
+  /*
+    Включает кнопки
+
+  @param object id
+    id кнопки
+  */
   removeBtnDisabled: function(id){
     let a = document.querySelector('a[data-id="' + id + '"]');
     if(a.classList !== undefined){
       a.classList.remove('disabled');
     }
   },
+
+  // Рисует кнопки, и отключает
   init: function(){
     this.drawBtn('start');
     this.drawBtn('deal');
@@ -246,8 +334,12 @@ let Game =  {
     this.setBtnDisabled('stop');
     this.setBtnDisabled('reset');
   },
+
+  /*
+  Показывает карты и очки
+  @constructor
+  */
   showAll: function(){
-    // Show player cards.
     let that = this;
     that.playerCards.forEach((card) => {
       if(!card.onBoard){
@@ -268,10 +360,10 @@ let Game =  {
   },
 
   /**
+      рисует очки для игрока и дилера
+
    * @param bool forPlayer
-   *   flag for draing position.
-   * @param object card
-   *   contain card information.
+   *   для игрока или для дилера
    */
   drawPoint: function(forPlayer){
     let  id, point;
@@ -285,10 +377,14 @@ let Game =  {
     document.querySelector(id + ' .points-wrapper').innerHTML = point;
   },
   /**
+    Рисует карты
+
    * @param bool forPlayer
-   *   flag for draing position.
+   *   для игрока или для дилера
    * @param object card
-   *   contain card information.
+   *   Содержит информацию о карте.
+
+   @constructor
    */
   drawCard: function(forPlayer, card){
     let cardHtml = '<div class="card ';
