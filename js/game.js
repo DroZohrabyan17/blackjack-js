@@ -68,16 +68,15 @@ let Game =  {
       содержит очки дилера
   */
   dealerPoints: 0,
-  /*
-    @param array
-      содержит карты дилера
-  */
+
+  /**
+   * массив карт диллера.
+   */
   dealerCards: [],
 
-  /*
-    @constructor
-      генерирует калода карт
-  */
+  /**
+   * генерирует калоду карт.
+   */
   generate: function(){
     let that = this;
     for(let key in that.values){
@@ -86,11 +85,19 @@ let Game =  {
       });
     }
   },
-  /*
-    @constructor
-    @param array card
-      разбирает карты
-  */
+
+  /**
+   * Из строковой карты создает объект.
+   *
+   * @param {string} card - карта в виде строки.
+   * @return {Object} cardDetails - объект карты с ключами
+   *    type    - масть карты
+   *    key     - значение карты
+   *    value   - цифровое значение карты
+   *    onBoard - флаг, указывающий выведена карта на стол или нет.
+   *
+   * @see this.generate()
+   */
   parseCard: function(card){
     let cardParts = card.split(':');
     let cardDetails = {
