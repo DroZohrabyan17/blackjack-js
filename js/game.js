@@ -76,6 +76,11 @@ let Game =  {
     let that = this;
     that.draw = false;
     that.calculate();
+    if(that.playerCards.length > 5 && that.playerPoints < 21){
+      that.win = true;
+      that.ingame = false;
+      return;
+    }
     if(that.playerCards.length == 2 && that.playerPoints == 21){
       that.win = true;
       that.ingame = false;
