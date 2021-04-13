@@ -95,6 +95,7 @@ body{
   border-radius: 25px;
   border: 1px dashed #21c44e;
   display: flex;
+  overflow: hidden;
   flex-direction: column;
   justify-content: space-between;
 }
@@ -194,7 +195,6 @@ body{
   display: block;
   z-index: 100;
   background: rgba(0, 0, 0, 0.4);
-  border-radius: 25px;
   left: 0;
   top: 0;
   color: #fcf800;
