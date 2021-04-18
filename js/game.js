@@ -129,11 +129,6 @@ let Game =  {
     let that = this;
     that.draw = false;
     that.calculate();
-    if(that.playerCards.length > 5 && that.playerPoints < 21){
-      that.win = true;
-      that.ingame = false;
-      return;
-    }
     if(that.playerCards.length == 2 && that.playerPoints == 21){
       that.win = true;
       that.ingame = false;
@@ -245,7 +240,7 @@ let Game =  {
   },
 
   /**
-   * Берёт рандомный карт из deck
+   * Берёт рандомный карт из deck.
    *
    * @see deck
    */
@@ -307,7 +302,7 @@ let Game =  {
   },
 
   /**
-   *  Удаляет закрытую карту дилера
+   *  Удаляет закрытую карту дилера.
    */
   removeEmptyCard: function(){
     let emptyCard = document.querySelector('.empty');
@@ -410,7 +405,6 @@ let Game =  {
     }
     document.querySelector(id + ' .points-wrapper').innerHTML = point;
   },
-
   /**
    * Рисует карты
    *
