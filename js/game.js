@@ -73,6 +73,16 @@ let Game =  {
   dealerCards: [],
 
   /**
+   *   Количесво побед дилера.
+   */
+  dealerWins: localStorage.getItem('dealerWins_conut'),
+
+  /**
+   *   Количесво побед игрока.
+   */
+  playerWins: localStorage.getItem('playerWins_conut'),
+
+  /**
    *   Генерирует калода карт.
    */
   generate: function(){
@@ -268,6 +278,9 @@ let Game =  {
     that.dealerCards.push(that.getCard());
     that.checkWinner();
     that.next();
+
+    localStorage.getItem('playerWins_conut');
+    localStorage.getItem('dealerWins_conut');
   },
 
   /**
@@ -275,10 +288,14 @@ let Game =  {
    */
   finish: function(){
     let that = this;
+    that.result();
     that.showAll();
     that.drawWinner(that.win, that.draw);
     this.setBtnDisabled('deal');
     this.setBtnDisabled('stop');
+
+    localStorage.setItem('playerWins_conut', that.playerWins);
+    localStorage.setItem('dealerWins_conut', that.dealerWins);
   },
 
   /**
@@ -430,6 +447,27 @@ let Game =  {
       id = '#dealer';
     }
     document.querySelector(id + ' .card-wrapper').innerHTML += cardHtml;
+  },
+
+  /**
+   * Считает результат игры.
+   */
+  result: function(){
+    let that = this;
+
+    if(that.draw){
+      console.log("Draw!");
+      return;
+    }
+
+    if(that.win){
+      that.playerWins++;
+      console.log("Dealer - " + that.dealerWins + " - " + that.playerWins + " Player");
+    }else{
+      that.dealerWins++;
+      console.log("Dealer - " + that.dealerWins + " - " + that.playerWins + " Player");
+    }
+
   }
 
 }
