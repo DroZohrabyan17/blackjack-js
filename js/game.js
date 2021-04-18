@@ -289,6 +289,7 @@ let Game =  {
   finish: function(){
     let that = this;
     that.result();
+    that.showResult();
     that.showAll();
     that.drawWinner(that.win, that.draw);
     this.setBtnDisabled('deal');
@@ -456,17 +457,22 @@ let Game =  {
     let that = this;
 
     if(that.draw){
-      console.log("Draw!");
       return;
     }
 
     if(that.win){
       that.playerWins++;
-      console.log("Dealer - " + that.dealerWins + " - " + that.playerWins + " Player");
     }else{
       that.dealerWins++;
-      console.log("Dealer - " + that.dealerWins + " - " + that.playerWins + " Player");
     }
+
+  },
+
+  showResult: function(){
+    let that = this;
+
+    let delalerW = document.querySelector('.result_dealer').innerText = 'Dealer ' + that.dealerWins;
+    let playerW = document.querySelector('.result_player').innerHTML = 'Player ' + that.playerWins;
 
   }
 

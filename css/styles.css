@@ -69,6 +69,19 @@ body{
   background-position-x: calc(-117px - 107px * 12);
 }
 
+.result{
+  position: absolute;
+  background-color: #f5b642;
+  height: 50px;
+  width: 130px;
+  margin-top: 39px;
+  margin-left: 30px;
+  box-sizing: border-box;
+  border-radius: 10px;
+  text-align: center;
+  font-size: 20px;
+  padding-top: 13px;
+}
 
 #table{
   position: relative;
