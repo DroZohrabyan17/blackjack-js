@@ -33,57 +33,57 @@ let Game =  {
   },
 
   /**
-   *  Решает выграл игрок или нет.
+   * Флаг определяющий выграл игрок или нет.
    */
   win: false,
 
   /**
-   *  Решает ничья или нет.
+   * Флаг определяющий ничья или нет.
    */
   draw: false,
 
   /**
-   *  Решает игра в поцесе или нет.
+   * Флаг определяющий игра в поцесе или нет.
    */
   ingame: true,
 
   /**
-   *  Решает ход игрока или нет.
+   * Флаг определяющий ход игрока или нет.
    */
   playerMove: true,
 
   /**
-   *  Содержит очки игрока.
+   * Содержит очки игрока.
    */
   playerPoints: 0,
 
   /**
-   *   Содержит карты игрока.
+   * Содержит карты игрока.
    */
   playerCards: [],
 
   /**
-   *   Содержит очки дилера.
+   * Содержит очки дилера.
    */
   dealerPoints: 0,
 
   /**
-   *   Содержит карты дилера.
+   * Содержит карты дилера.
    */
   dealerCards: [],
 
   /**
-   *   Количесво побед дилера.
+   * Количесво побед дилера.
    */
-  dealerWins: localStorage.getItem('dealerWins_conut'),
+  dealerWins: 0,
 
   /**
-   *   Количесво побед игрока.
+   * Количесво побед игрока.
    */
-  playerWins: localStorage.getItem('playerWins_conut'),
+  playerWins: 0,
 
   /**
-   *   Генерирует калода карт.
+   * Генерирует калода карт.
    */
   generate: function(){
     let that = this;
@@ -95,8 +95,8 @@ let Game =  {
   },
 
   /**
-   * param {array} card
-   * return {cardDetails} Детали карт.
+   * @param {array} card
+   * @return {cardDetails} Детали карт.
    */
   parseCard: function(card){
     let cardParts = card.split(':');
@@ -133,7 +133,7 @@ let Game =  {
   },
 
   /**
-   *  Функция которая определяет кто выгал.
+   * Функция которая определяет кто выгал.
    */
   checkWinner: function(){
     let that = this;
@@ -164,7 +164,7 @@ let Game =  {
     }
 
   /**
-   *  Фукция кнопки "Deal".
+   * Фукция кнопки "Deal".
    */
   },
   dealBtnClick: function(){
@@ -175,7 +175,7 @@ let Game =  {
   },
 
   /**
-   *  Фукция кнопки "Stop".
+   * Фукция кнопки "Stop".
    */
   stopBtnClick: function(){
     this.removeEmptyCard();
@@ -187,7 +187,7 @@ let Game =  {
   },
 
   /**
-   *  Фукция кнопки "Reset".
+   * Фукция кнопки "Reset".
    */
   resetBtnClick: function(){
     this.playerCards = [];
@@ -232,6 +232,7 @@ let Game =  {
    *  @param {array} cards
    *    Содержит в себе карты игрока и карты дилера отдельно.
    *  @return {points} Очки игрока или дилера.
+   *  @see calculate
    */
   calculatePoints: function(cards){
     let tCount = 0;
@@ -250,9 +251,7 @@ let Game =  {
   },
 
   /**
-   * Берёт рандомный карт из deck.
-   *
-   * @see deck
+   * Берёт рандомную карту из deck.
    */
   getCard: function(){
     let that = this;
@@ -278,31 +277,24 @@ let Game =  {
     that.dealerCards.push(that.getCard());
     that.checkWinner();
     that.next();
-
-    localStorage.getItem('playerWins_conut');
-    localStorage.getItem('dealerWins_conut');
   },
 
   /**
-   *  Окончание игры, после победы или поражения.
+   * Окончание игры, после победы или поражения.
    */
   finish: function(){
     let that = this;
     that.result();
-    that.showResult();
     that.showAll();
     that.drawWinner(that.win, that.draw);
     this.setBtnDisabled('deal');
     this.setBtnDisabled('stop');
-
-    localStorage.setItem('playerWins_conut', that.playerWins);
-    localStorage.setItem('dealerWins_conut', that.dealerWins);
   },
 
   /**
-   *  @param bool is Player
+   * @param bool is Player
    *    Возврашает кто выграл
-   *  @param bool draw
+   * @param bool draw
    *    Ничья или нет
    */
   drawWinner: function(isPlayer, draw){
@@ -331,11 +323,11 @@ let Game =  {
   },
 
   /**
-   *  Рисует кнопки
+   * Рисует кнопки.
    *
-   *  @param object id
+   * @param object id
    *    id кнопки
-   *  @param text text
+   * @param text text
    *    название кнопки
    */
   drawBtn: function(id, text){
@@ -345,9 +337,9 @@ let Game =  {
   },
 
   /**
-   * отключает кнопки
+   * Отключает кнопки.
    *
-   *  @param object id
+   * @param object id
    *    id кнопки
    */
   setBtnDisabled: function(id){
@@ -358,9 +350,9 @@ let Game =  {
   },
 
   /**
-   *  Включает кнопки
+   * Включает кнопки.
    *
-   *  @param object id
+   * @param object id
    *    id кнопки
    */
   removeBtnDisabled: function(id){
@@ -371,7 +363,7 @@ let Game =  {
   },
 
   /**
-   *  Рисует кнопки, и когда нужно их отключает.
+   * Рисует кнопки, и когда нужно их отключает.
    */
   init: function(){
     this.drawBtn('start');
@@ -381,10 +373,13 @@ let Game =  {
     this.setBtnDisabled('deal');
     this.setBtnDisabled('stop');
     this.setBtnDisabled('reset');
+    this.dealerWins = localStorage.getItem('dealerWins_conut') ?? 0;
+    this.playerWins = localStorage.getItem('playerWins_conut') ?? 0;
+    this.showResult();
   },
 
   /**
-   *  Показывает на экране карты и очки.
+   * Показывает на экране карты и очки.
    */
   showAll: function(){
     let that = this;
@@ -402,15 +397,14 @@ let Game =  {
     });
     that.drawPoint(true);
     that.drawPoint(false);
-
-
+    that.showResult();
   },
 
   /**
-   *   рисует очки для игрока и дилера
+   * Рисует очки для игрока и дилера.
    *
    * @param bool forPlayer
-   *   для игрока или для дилера
+   *   для игрока или для дилера.
    */
   drawPoint: function(forPlayer){
     let  id, point;
@@ -423,6 +417,7 @@ let Game =  {
     }
     document.querySelector(id + ' .points-wrapper').innerHTML = point;
   },
+
   /**
    * Рисует карты
    *
@@ -454,26 +449,24 @@ let Game =  {
    * Считает результат игры.
    */
   result: function(){
-    let that = this;
-
-    if(that.draw){
+    if(this.draw){
       return;
     }
 
-    if(that.win){
-      that.playerWins++;
+    if(this.win){
+      this.playerWins++;
     }else{
-      that.dealerWins++;
+      this.dealerWins++;
     }
-
+    localStorage.setItem('playerWins_conut', this.playerWins);
+    localStorage.setItem('dealerWins_conut', this.dealerWins);
   },
 
+  /**
+   * Выводит результаты игр на экран.
+   */
   showResult: function(){
-    let that = this;
-
-    let delalerW = document.querySelector('.result_dealer').innerText = 'Dealer ' + that.dealerWins;
-    let playerW = document.querySelector('.result_player').innerHTML = 'Player ' + that.playerWins;
-
+    document.querySelector('.result_dealer').innerText = 'Dealer: ' + this.dealerWins;
+    document.querySelector('.result_player').innerHTML = 'Player: ' + this.playerWins;
   }
-
 }
