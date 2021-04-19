@@ -83,7 +83,7 @@ let Game =  {
   playerWins: 0,
 
   /**
-   * Генерирует калода карт.
+   * генерирует калоду карт.
    */
   generate: function(){
     let that = this;
