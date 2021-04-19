@@ -95,8 +95,16 @@ let Game =  {
   },
 
   /**
-   * @param {array} card
-   * @return {cardDetails} Детали карт.
+   * Из строковой карты создает объект.
+   *
+   * @param {string} card - карта в виде строки.
+   * @return {Object} cardDetails - объект карты с ключами
+   *    type    - масть карты
+   *    key     - значение карты
+   *    value   - цифровое значение карты
+   *    onBoard - флаг, указывающий выведена карта на стол или нет.
+   *
+   * @see this.generate()
    */
   parseCard: function(card){
     let cardParts = card.split(':');
@@ -110,8 +118,8 @@ let Game =  {
   },
 
   /**
-   *
-   *
+   * Вызывает для определения следующего действия:
+   * определяет ожидать ход игрока, играть диллеру или завершить игру.
    */
   next: function(){
     let that = this;
