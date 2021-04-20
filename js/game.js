@@ -83,6 +83,16 @@ let Game =  {
   playerWins: 0,
 
   /**
+   * Количество игр, за всё время.
+   */
+  gameCount: 0,
+
+  /**
+   * Процент выгрыша игрока.
+   */
+  winPercent: 0,
+
+  /**
    * генерирует калоду карт.
    */
   generate: function(){
@@ -272,18 +282,21 @@ let Game =  {
    */
   startGame: function(){
     let that = this;
-    that.generate();
-    that.setBtnDisabled('start');
-    that.removeBtnDisabled('deal');
-    that.removeBtnDisabled('stop');
-    that.removeBtnDisabled('reset');
 
-    that.drawCard(false);
-    that.playerCards.push(that.getCard());
-    that.playerCards.push(that.getCard());
-    that.dealerCards.push(that.getCard());
-    that.checkWinner();
-    that.next();
+    this.generate();
+    this.setBtnDisabled('start');
+    this.removeBtnDisabled('deal');
+    this.removeBtnDisabled('stop');
+    this.removeBtnDisabled('reset');
+    this.drawCard(false);
+    this.playerCards.push(that.getCard());
+    this.playerCards.push(that.getCard());
+    this.dealerCards.push(that.getCard());
+
+    this.gameCount++;
+
+    this.checkWinner();
+    this.next();
   },
 
   /**
@@ -291,9 +304,11 @@ let Game =  {
    */
   finish: function(){
     let that = this;
-    that.result();
-    that.showAll();
-    that.drawWinner(that.win, that.draw);
+
+    this.result();
+    this.percentConsider();
+    this.showAll();
+    this.drawWinner(that.win, that.draw);
     this.setBtnDisabled('deal');
     this.setBtnDisabled('stop');
   },
@@ -382,7 +397,10 @@ let Game =  {
     this.setBtnDisabled('reset');
     this.dealerWins = localStorage.getItem('dealerWins_conut') ?? 0;
     this.playerWins = localStorage.getItem('playerWins_conut') ?? 0;
+    this.gameCount = localStorage.getItem('gameCount_storage') ?? 0;
+    this.winPercent = localStorage.getItem('percentOfwins') ?? 0;
     this.showResult();
+    this.showPercent();
   },
 
   /**
@@ -405,6 +423,7 @@ let Game =  {
     that.drawPoint(true);
     that.drawPoint(false);
     that.showResult();
+    that.showPercent();
   },
 
   /**
@@ -475,5 +494,19 @@ let Game =  {
   showResult: function(){
     document.querySelector('.result_dealer').innerText = 'Dealer: ' + this.dealerWins;
     document.querySelector('.result_player').innerHTML = 'Player: ' + this.playerWins;
+  },
+
+  /**
+   * Считает процент побед игрока.
+   */
+  percentConsider: function(){
+   this.winPercent  = (this.playerWins / this.gameCount) * 100;
+
+   localStorage.setItem('percentOfwins', this.winPercent);
+   localStorage.setItem('gameCount_storage', this.gameCount);
+  },
+
+  showPercent: function() {
+    document.querySelector('#percent_table').innerHTML = "Record " + this.winPercent + "%";
   }
 }
