@@ -388,6 +388,7 @@ let Game =  {
    * Рисует кнопки, и когда нужно их отключает.
    */
   init: function(){
+    this.checkStorage();
     this.drawBtn('start');
     this.drawBtn('deal');
     this.drawBtn('stop');
@@ -400,7 +401,6 @@ let Game =  {
     this.gameCount = localStorage.getItem('gameCount_storage') ?? 0;
     this.winPercent = localStorage.getItem('percentOfwins') ?? 0;
     this.showResult();
-    this.showPercent();
   },
 
   /**
@@ -423,7 +423,6 @@ let Game =  {
     that.drawPoint(true);
     that.drawPoint(false);
     that.showResult();
-    that.showPercent();
   },
 
   /**
@@ -494,19 +493,31 @@ let Game =  {
   showResult: function(){
     document.querySelector('.result_dealer').innerText = 'Dealer: ' + this.dealerWins;
     document.querySelector('.result_player').innerHTML = 'Player: ' + this.playerWins;
+
+    this.showPercent();
   },
 
   /**
    * Считает процент побед игрока.
    */
   percentConsider: function(){
-   this.winPercent  = (this.playerWins / this.gameCount) * 100;
+   this.winPercent = (+(this.playerWins / this.gameCount) * 100).toFixed(2);
 
    localStorage.setItem('percentOfwins', this.winPercent);
    localStorage.setItem('gameCount_storage', this.gameCount);
   },
 
+  /**
+   * Показывает процент побед игрока на экране.
+   */
   showPercent: function() {
     document.querySelector('#percent_table').innerHTML = "Record " + this.winPercent + "%";
+  },
+
+  checkStorage: function() {
+    if(localStorage.getItem('percentOfwins') != (+(localStorage.getItem('playerWins_conut') / localStorage.getItem('gameCount_storage') * 100)).toFixed(2)){
+      localStorage.clear();
+      return;
+    }
   }
 }
