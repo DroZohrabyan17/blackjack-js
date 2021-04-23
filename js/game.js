@@ -388,7 +388,6 @@ let Game =  {
    * Рисует кнопки, и когда нужно их отключает.
    */
   init: function(){
-    this.checkStorage();
     this.drawBtn('start');
     this.drawBtn('deal');
     this.drawBtn('stop');
@@ -396,6 +395,8 @@ let Game =  {
     this.setBtnDisabled('deal');
     this.setBtnDisabled('stop');
     this.setBtnDisabled('reset');
+
+    this.checkStorage();
     this.dealerWins = localStorage.getItem('dealerWins_conut') ?? 0;
     this.playerWins = localStorage.getItem('playerWins_conut') ?? 0;
     this.gameCount = localStorage.getItem('gameCount_storage') ?? 0;
@@ -515,9 +516,8 @@ let Game =  {
   },
 
   checkStorage: function() {
-    if(localStorage.getItem('percentOfwins') != (+(localStorage.getItem('playerWins_conut') / localStorage.getItem('gameCount_storage') * 100)).toFixed(2)){
+    if(localStorage.getItem('percentOfwins') === null){
       localStorage.clear();
-      return;
     }
   }
 }
