@@ -515,6 +515,9 @@ let Game =  {
     document.querySelector('#percent_table').innerHTML = "Record " + this.winPercent + "%";
   },
 
+  /**
+   * Проверяет состояние LocalStorage, при необходимости удаляет LocalStorage.
+   */
   checkStorage: function() {
     if(localStorage.getItem('percentOfwins') === null){
       localStorage.clear();
