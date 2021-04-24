@@ -146,6 +146,7 @@ let Game =  {
     let that = this;
     that.draw = false;
     that.calculate();
+    that.autoNext();
     if(that.playerCards.length == 2 && that.playerPoints == 21){
       that.win = true;
       that.ingame = false;
@@ -475,5 +476,17 @@ let Game =  {
   showResult: function(){
     document.querySelector('.result_dealer').innerText = 'Dealer: ' + this.dealerWins;
     document.querySelector('.result_player').innerHTML = 'Player: ' + this.playerWins;
+  },
+
+  /**
+   * Автоматический переход хода в случае если у игрока больше 2 карт, и очки 21.
+   */
+  autoNext: function(){
+    let that = this;
+
+    if(that.playerCards.length > 2 && that.playerPoints == 21){
+      that.removeEmptyCard();
+      that.playerMove = false;
+    }
   }
 }
