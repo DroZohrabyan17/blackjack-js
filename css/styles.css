@@ -1,9 +1,9 @@
 body{
-  background-image: url(../images/background.png);
+  background-image: url(../images/background2.png);
 }
 
 #welcome{
-  color: #006400;
+  color: #fff;
   text-align: center;
   font-size: 100px;
   font-weight: bold;
@@ -84,12 +84,12 @@ body{
   width: 960px;
   height: 400px;
   margin: 50px auto;
-  background-image: url(../images/table.jpg);
+  background-color: #2e4bf0;
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center;
-  border-radius:   25px;
-  border: 1px dashed #21c44e;
+  border-radius: 25px;
+  border: 2px solid navy;
   display: flex;
   overflow: hidden;
   flex-direction: column;
@@ -112,7 +112,9 @@ body{
 }
 
 #actions {
-  background-image: url(../images/actions-table.jpg);
+  /*background-image: url(../images/actions-table.jpg);*/
+  border: 2px solid black;
+  background-color: #2e4bf0;
   background-size: cover;
   background-repeat: no-repeat;
   border-radius: 20px;
@@ -125,7 +127,7 @@ body{
 .btn {
   display: inline-block;
   text-decoration: none;
-  background: #42b04e;
+  background: #000;
   box-sizing: border-box;
   padding: 10px 30px;
   color: #fff;
@@ -153,9 +155,9 @@ body{
 .points-wrapper {
   width: 60px;
   height: 30px;
-  border: 1px solid black;
+  border: 2px solid black;
   border-radius: 10px;
-  background: #0da326;
+  background: #fff;
   position: absolute;
   right: 30px;
   top: 60px;
@@ -186,6 +188,7 @@ body{
 .winner::after {
   content: 'WIN';
   position: absolute;
+  font-family: Josefin Sans;
   width: 100%;
   height: 100%;
   display: block;
@@ -193,10 +196,10 @@ body{
   background: rgba(0, 0, 0, 0.4);
   left: 0;
   top: 0;
-  color: #fcf800;
+  color: #fff;
   text-align: center;
   box-sizing: border-box;
-  font-size: 55px;
+  font-size: 90px;
   font-weight: bold;
   padding: 30px;
 }
