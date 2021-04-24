@@ -1,9 +1,21 @@
+/**
+ *   Весь процесс игры
+ */
 let Game =  {
-  // Cards group. foramt: type:value
+
+  /**
+   *  Масив в котором сохраняется калоду карт (52 карт).
+   */
   deck: [],
-  // 1=> Sirt, 2 => Qyap, 3=> Khach, 4 => Ghar.
+
+  /**
+   *  Мвсив в котором сохраняется масты карт от 1 до 4.
+   */
   cardsType: ['1', '2', '3', '4'],
-  // Card balues.
+
+  /**
+   *  Масив в котором сохраняется Значение карт от 2 до туза.
+   */
   values: {
     '2': 2,
     '3': 3,
@@ -19,28 +31,81 @@ let Game =  {
     'K': 10,
     'T': 11
   },
+
+  /**
+   * Флаг определяющий выграл игрок или нет.
+   */
   win: false,
+
+  /**
+   * Флаг определяющий ничья или нет.
+   */
   draw: false,
+
+  /**
+   * Флаг определяющий игра в поцесе или нет.
+   */
   ingame: true,
+
+  /**
+   * Флаг определяющий ход игрока или нет.
+   */
   playerMove: true,
 
+  /**
+   * Содержит очки игрока.
+   */
   playerPoints: 0,
+
+  /**
+   * Содержит карты игрока.
+   */
   playerCards: [],
 
+  /**
+   * Содержит очки дилера.
+   */
   dealerPoints: 0,
+
+  /**
+   * Содержит карты дилера.
+   */
   dealerCards: [],
 
-  //Generate initial state.
+  /**
+   * Количесво побед дилера.
+   */
+  dealerWins: 0,
+
+  /**
+   * Количесво побед игрока.
+   */
+  playerWins: 0,
+
+  /**
+   * генерирует калоду карт.
+   */
   generate: function(){
     let that = this;
-    // create deck.
     for(let key in that.values){
       that.cardsType.forEach((mast) => {
         that.deck.push( mast + ':' + key);
       });
     }
   },
-  // Parse cart nominal value.
+
+  /**
+   * Из строковой карты создает объект.
+   *
+   * @param {string} card - карта в виде строки.
+   * @return {Object} cardDetails - объект карты с ключами
+   *    type    - масть карты
+   *    key     - значение карты
+   *    value   - цифровое значение карты
+   *    onBoard - флаг, указывающий выведена карта на стол или нет.
+   *
+   * @see this.generate()
+   */
   parseCard: function(card){
     let cardParts = card.split(':');
     let cardDetails = {
@@ -51,7 +116,10 @@ let Game =  {
     }
     return cardDetails;
   },
-  // Next step.
+
+  /**
+   * определяет ожидать ход игрока, играть диллеру или завершить игру.
+   */
   next: function(){
     let that = this;
     if(!that.playerMove){
@@ -71,7 +139,9 @@ let Game =  {
     that.showAll();
   },
 
-  // Check WIN or not.
+  /**
+   * Функция которая определяет кто выгал.
+   */
   checkWinner: function(){
     let that = this;
     that.draw = false;
@@ -100,16 +170,21 @@ let Game =  {
       that.win = false;
     }
 
+  /**
+   * Фукция кнопки "Deal".
+   */
   },
   dealBtnClick: function(){
     this.playerCards.push(this.getCard());
     this.calculate();
-    // this.calculatePoints();  XI CHI ASHXATUM??
     this.checkWinner();
     this.next();
   },
+
+  /**
+   * Фукция кнопки "Stop".
+   */
   stopBtnClick: function(){
-    // this.dealerCards.delete(this.getCard());     //2 qaric avel chi tali...
     this.removeEmptyCard();
 
     this.playerMove = false;
@@ -117,6 +192,10 @@ let Game =  {
     this.setBtnDisabled('stop');
     this.next();
   },
+
+  /**
+   * Фукция кнопки "Reset".
+   */
   resetBtnClick: function(){
     this.playerCards = [];
     this.dealerCards = [];
@@ -143,12 +222,25 @@ let Game =  {
     this.init();
   },
 
-  // Calculate
+  /**
+   * Считает очки с помощю функции calculatePoints, и держит число в playerPoints
+   * и в dealerPoints.
+   *
+   * @see calculatePoints
+   */
   calculate: function(){
     this.playerPoints = this.calculatePoints(this.playerCards);
     this.dealerPoints = this.calculatePoints(this.dealerCards);
   },
-  // Calculate helper.
+
+  /**
+   *  Считает очки, где туз имеет 2 значение (11 или 1).
+   *
+   *  @param {array} cards
+   *    Содержит в себе карты игрока и карты дилера отдельно.
+   *  @return {points} Очки игрока или дилера.
+   *  @see calculate
+   */
   calculatePoints: function(cards){
     let tCount = 0;
     let points = 0;
@@ -158,14 +250,16 @@ let Game =  {
         tCount++;
       }
     });
-    // remove T values when points greate than 21.
     while(points > 21 && tCount > 0){
       points -= 10;
       tCount--;
     }
     return points;
   },
-  //Gett random card from deck.
+
+  /**
+   * Берёт рандомную карту из deck.
+   */
   getCard: function(){
     let that = this;
     let itemKey = Math.floor(Math.random() * that.deck.length);
@@ -173,6 +267,9 @@ let Game =  {
     return that.parseCard(cards.pop());
   },
 
+  /**
+   * После нажати на кнопку Start начинается игра.
+   */
   startGame: function(){
     let that = this;
     that.generate();
@@ -189,14 +286,24 @@ let Game =  {
     that.next();
   },
 
+  /**
+   * Окончание игры, после победы или поражения.
+   */
   finish: function(){
     let that = this;
+    that.result();
     that.showAll();
     that.drawWinner(that.win, that.draw);
     this.setBtnDisabled('deal');
     this.setBtnDisabled('stop');
   },
 
+  /**
+   * @param bool is Player
+   *    Возврашает кто выграл
+   * @param bool draw
+   *    Ничья или нет
+   */
   drawWinner: function(isPlayer, draw){
     let id;
     if(draw){
@@ -211,6 +318,9 @@ let Game =  {
     document.getElementById(id).classList.add('winner');
   },
 
+  /**
+   *  Удаляет закрытую карту дилера.
+   */
   removeEmptyCard: function(){
     let emptyCard = document.querySelector('.empty');
     if(emptyCard){
@@ -219,24 +329,49 @@ let Game =  {
 
   },
 
+  /**
+   * Рисует кнопки.
+   *
+   * @param object id
+   *    id кнопки
+   * @param text text
+   *    название кнопки
+   */
   drawBtn: function(id, text){
     text = text || id;
     let aHtml  = `<a class="btn" data-id="${id}" href="#">${text}</a>`;
     document.querySelector('#actions').innerHTML += aHtml;
   },
+
+  /**
+   * Отключает кнопки.
+   *
+   * @param object id
+   *    id кнопки
+   */
   setBtnDisabled: function(id){
     let a = document.querySelector('a[data-id="' + id + '"]');
     if(a.classList !== undefined){
       a.classList.add('disabled');
     }
-  }
-  ,
+  },
+
+  /**
+   * Включает кнопки.
+   *
+   * @param object id
+   *    id кнопки
+   */
   removeBtnDisabled: function(id){
     let a = document.querySelector('a[data-id="' + id + '"]');
     if(a.classList !== undefined){
       a.classList.remove('disabled');
     }
   },
+
+  /**
+   * Рисует кнопки, и когда нужно их отключает.
+   */
   init: function(){
     this.drawBtn('start');
     this.drawBtn('deal');
@@ -245,9 +380,15 @@ let Game =  {
     this.setBtnDisabled('deal');
     this.setBtnDisabled('stop');
     this.setBtnDisabled('reset');
+    this.dealerWins = localStorage.getItem('dealerWins_conut') ?? 0;
+    this.playerWins = localStorage.getItem('playerWins_conut') ?? 0;
+    this.showResult();
   },
+
+  /**
+   * Показывает на экране карты и очки.
+   */
   showAll: function(){
-    // Show player cards.
     let that = this;
     that.playerCards.forEach((card) => {
       if(!card.onBoard){
@@ -263,15 +404,14 @@ let Game =  {
     });
     that.drawPoint(true);
     that.drawPoint(false);
-
-
+    that.showResult();
   },
 
   /**
+   * Рисует очки для игрока и дилера.
+   *
    * @param bool forPlayer
-   *   flag for draing position.
-   * @param object card
-   *   contain card information.
+   *   для игрока или для дилера.
    */
   drawPoint: function(forPlayer){
     let  id, point;
@@ -284,11 +424,14 @@ let Game =  {
     }
     document.querySelector(id + ' .points-wrapper').innerHTML = point;
   },
+
   /**
+   * Рисует карты
+   *
    * @param bool forPlayer
-   *   flag for draing position.
+   *   для игрока или для дилера
    * @param object card
-   *   contain card information.
+   *   Содержит информацию о карте.
    */
   drawCard: function(forPlayer, card){
     let cardHtml = '<div class="card ';
@@ -307,6 +450,30 @@ let Game =  {
       id = '#dealer';
     }
     document.querySelector(id + ' .card-wrapper').innerHTML += cardHtml;
-  }
+  },
 
+  /**
+   * Считает результат игры.
+   */
+  result: function(){
+    if(this.draw){
+      return;
+    }
+
+    if(this.win){
+      this.playerWins++;
+    }else{
+      this.dealerWins++;
+    }
+    localStorage.setItem('playerWins_conut', this.playerWins);
+    localStorage.setItem('dealerWins_conut', this.dealerWins);
+  },
+
+  /**
+   * Выводит результаты игр на экран.
+   */
+  showResult: function(){
+    document.querySelector('.result_dealer').innerText = 'Dealer: ' + this.dealerWins;
+    document.querySelector('.result_player').innerHTML = 'Player: ' + this.playerWins;
+  }
 }
