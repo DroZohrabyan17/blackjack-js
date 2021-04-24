@@ -69,6 +69,20 @@ body{
   background-position-x: calc(-117px - 107px * 12);
 }
 
+#percent_table{
+  position: absolute;
+  width: 200px;
+  height: 150px;
+  margin-top: 1px;
+  margin-left: 30px;
+  border-radius: 20px;
+  font-size: 55px;
+  padding-top: 20px;
+  display: block;
+  text-align: center;
+  background-color: #35cc0c;
+}
+
 .result{
   position: absolute;
   background-color: #f5b642;
@@ -96,6 +110,29 @@ body{
   justify-content: space-between;
 }
 
+#blackjack_wrapper{
+  width: 150px;
+  height: 144px;
+  margin-left: 10px;
+  background-color: #2aa308;
+  border-radius: 20px;
+  -webkit-box-shadow: 0px 0px 33px -4px #000000;
+  box-shadow: 0px 0px 33px -4px #000000;
+}
+
+#blackjack_count{
+  width: 124px;
+  height: 105px;
+  text-align: center;
+  margin: 0 auto;
+  margin-top: 10px;
+  font-size: 108px;
+}
+
+#blackjack_wrapper h6 {
+  text-align: center;
+  font-size: 25px;
+}
 #dealer, #player{
   height: 128px;
   width: 100%;

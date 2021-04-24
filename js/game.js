@@ -83,6 +83,11 @@ let Game =  {
   playerWins: 0,
 
   /**
+   * Количество блек джеков за игру.
+   */
+  blackJack_count: 0,
+
+  /**
    * генерирует калоду карт.
    */
   generate: function(){
@@ -149,6 +154,7 @@ let Game =  {
     if(that.playerCards.length == 2 && that.playerPoints == 21){
       that.win = true;
       that.ingame = false;
+      that.blackJack_count++;
       return;
     }
     if(that.playerPoints > 21){
@@ -382,6 +388,7 @@ let Game =  {
     this.setBtnDisabled('reset');
     this.dealerWins = localStorage.getItem('dealerWins_conut') ?? 0;
     this.playerWins = localStorage.getItem('playerWins_conut') ?? 0;
+    this.blackJack_count = localStorage.getItem('balckjacks') ?? 0;
     this.showResult();
   },
 
@@ -475,5 +482,15 @@ let Game =  {
   showResult: function(){
     document.querySelector('.result_dealer').innerText = 'Dealer: ' + this.dealerWins;
     document.querySelector('.result_player').innerHTML = 'Player: ' + this.playerWins;
+
+    this.showBlackJacks();
+  },
+
+  /**
+   * Выводит результаты Блек Джеков на экран.
+   */
+  showBlackJacks: function(){
+    localStorage.setItem('balckjacks', this.blackJack_count);
+    document.getElementById('blackjack_count').innerHTML = this.blackJack_count;
   }
 }
