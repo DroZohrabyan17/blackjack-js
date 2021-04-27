@@ -122,6 +122,7 @@ let Game =  {
    */
   next: function(){
     let that = this;
+    that.autoNext();
     if(!that.playerMove){
       while(that.ingame){
         that.dealerCards.push(that.getCard());
@@ -146,7 +147,6 @@ let Game =  {
     let that = this;
     that.draw = false;
     that.calculate();
-    that.autoNext();
     if(that.playerCards.length == 2 && that.playerPoints == 21){
       that.win = true;
       that.ingame = false;
@@ -482,11 +482,9 @@ let Game =  {
    * Автоматический переход хода в случае если у игрока больше 2 карт, и очки 21.
    */
   autoNext: function(){
-    let that = this;
-
-    if(that.playerCards.length > 2 && that.playerPoints == 21){
-      that.removeEmptyCard();
-      that.playerMove = false;
+    if(this.playerMove && this.playerCards.length > 2 && this.playerPoints == 21){
+      this.removeEmptyCard();
+      this.playerMove = false;
     }
   }
 }
