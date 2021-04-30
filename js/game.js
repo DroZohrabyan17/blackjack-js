@@ -512,7 +512,7 @@ let Game =  {
    * Показывает процент побед игрока на экране.
    */
   showPercent: function() {
-    document.querySelector('#percent_table').innerHTML = "Record " + this.winPercent + "%";
+    document.querySelector('#percent_table').innerHTML = "Record: " + this.winPercent + "%";
   },
 
   /**
