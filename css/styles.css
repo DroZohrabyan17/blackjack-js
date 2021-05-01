@@ -69,18 +69,16 @@ body{
   background-position-x: calc(-117px - 107px * 12);
 }
 
-#percent_table{
-  position: absolute;
+#blackjacks{
+  position: relative;
   width: 200px;
-  height: 150px;
-  margin-top: 1px;
-  margin-left: 30px;
-  border-radius: 20px;
-  font-size: 55px;
-  padding-top: 20px;
-  display: block;
-  text-align: center;
-  background-color: #35cc0c;
+  height: 50px;
+  background-color: #0da326;
+  font-size: 30px;
+  box-sizing: border-box;
+  padding-top: 10px;
+  margin: 0 auto;
+  border-radius: 10px;
 }
 
 .result{

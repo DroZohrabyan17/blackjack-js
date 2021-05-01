@@ -88,6 +88,11 @@ let Game =  {
   blackJack_count: 0,
 
   /**
+   * Количество игр.
+   */
+  gameCount: 0,
+
+  /**
    * генерирует калоду карт.
    */
   generate: function(){
@@ -154,7 +159,7 @@ let Game =  {
     if(that.playerCards.length == 2 && that.playerPoints == 21){
       that.win = true;
       that.ingame = false;
-      that.blackJack_count++;
+      that.blackJack_count++;   
       return;
     }
     if(that.playerPoints > 21){
@@ -278,18 +283,20 @@ let Game =  {
    */
   startGame: function(){
     let that = this;
-    that.generate();
-    that.setBtnDisabled('start');
-    that.removeBtnDisabled('deal');
-    that.removeBtnDisabled('stop');
-    that.removeBtnDisabled('reset');
+    this.generate();
+    this.setBtnDisabled('start');
+    this.removeBtnDisabled('deal');
+    this.removeBtnDisabled('stop');
+    this.removeBtnDisabled('reset');
 
-    that.drawCard(false);
-    that.playerCards.push(that.getCard());
-    that.playerCards.push(that.getCard());
-    that.dealerCards.push(that.getCard());
-    that.checkWinner();
-    that.next();
+    this.gameCount++;
+    localStorage.setItem('gameCount', this.gameCount);
+    this.drawCard(false);
+    this.playerCards.push(that.getCard());
+    this.playerCards.push(that.getCard());
+    this.dealerCards.push(that.getCard());
+    this.checkWinner();
+    this.next();
   },
 
   /**
@@ -386,9 +393,11 @@ let Game =  {
     this.setBtnDisabled('deal');
     this.setBtnDisabled('stop');
     this.setBtnDisabled('reset');
+    this.checkStorage();
     this.dealerWins = localStorage.getItem('dealerWins_conut') ?? 0;
     this.playerWins = localStorage.getItem('playerWins_conut') ?? 0;
     this.blackJack_count = localStorage.getItem('balckjacks') ?? 0;
+    this.gameCount = localStorage.getItem('gameCount') ?? 0;
     this.showResult();
   },
 
@@ -474,6 +483,8 @@ let Game =  {
     }
     localStorage.setItem('playerWins_conut', this.playerWins);
     localStorage.setItem('dealerWins_conut', this.dealerWins);
+
+    this.checkBlackJacks();
   },
 
   /**
@@ -483,14 +494,31 @@ let Game =  {
     document.querySelector('.result_dealer').innerText = 'Dealer: ' + this.dealerWins;
     document.querySelector('.result_player').innerHTML = 'Player: ' + this.playerWins;
 
-    this.showBlackJacks();
+    this.showBlackJack();
   },
 
   /**
-   * Выводит результаты Блек Джеков на экран.
+   * Считает процент Блек Джеков.
    */
-  showBlackJacks: function(){
-    localStorage.setItem('balckjacks', this.blackJack_count);
-    document.getElementById('blackjack_count').innerHTML = this.blackJack_count;
+  checkBlackJacks: function(){
+    let percent_blackjack = ((this.gameCount / this.blackJack_count) * 100).toFixed(2);
+    localStorage.setItem('balckjacks', this.percent_blackjack);
+  },
+
+  /**
+   * Выводит процент блек джеков на экран.
+   */
+  showBlackJack: function(){
+    let that = this;
+    document.getElementById('blackjacks').innerHTML = "Black Jack: " + that.percent_blackjack + "%";
+  },
+
+  /**
+   * Проверяет локал хранилище, при необходимости удаляет.
+   */
+  checkStorage: function(){
+    if(this.gameCount == null && localStorage.getItem('blackjacks') == null){
+      localStorage.clear();
+    }
   }
 }
