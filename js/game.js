@@ -394,6 +394,7 @@ let Game =  {
     this.setBtnDisabled('stop');
     this.setBtnDisabled('reset');
     this.checkStorage();
+    this.percent_blackjack = this.percent_blackjack ?? 0;
     this.dealerWins = localStorage.getItem('dealerWins_conut') ?? 0;
     this.playerWins = localStorage.getItem('playerWins_conut') ?? 0;
     this.blackJack_count = localStorage.getItem('balckjacks') ?? 0;
@@ -501,8 +502,10 @@ let Game =  {
    * Считает процент Блек Джеков.
    */
   checkBlackJacks: function(){
-    let percent_blackjack = ((this.gameCount / this.blackJack_count) * 100).toFixed(2);
-    localStorage.setItem('balckjacks', this.percent_blackjack);
+    let that = this;
+    this.percent_blackjack = ((this.blackJack_count / this.gameCount) * 100).toFixed(2);
+    localStorage.setItem('balckjack_percent', this.percent_blackjack);
+    localStorage.setItem('blackjacks', that.blackJack_count);
   },
 
   /**
